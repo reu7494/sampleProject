@@ -19,7 +19,6 @@ export default function Gallery() {
       <h1>{Cars.name} is Nice Car!</h1>
       <Car />
       <Car />
-      <Car />
     </div>
   );
 }

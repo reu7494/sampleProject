@@ -1,24 +1,13 @@
 import Lamborghini from "./images/Lamborghini.jpg";
 
-const Cars = {
-  name: "Lamborghini",
-  imageSize: "s",
-  theme: {
-    backgroundColor: "black",
-    color: "red",
-  },
-};
-
-function Car() {
-  return <img src={Lamborghini} alt="Lamborghini" />;
-}
-
-export default function Gallery() {
+export default function Gallery({ cars, size }) {
   return (
-    <div style={Cars.theme}>
-      <h1>{Cars.name} is Nice Car!</h1>
-      <Car />
-      <Car />
-    </div>
+    <img
+      src={Lamborghini}
+      alt="Lamborghini"
+      carname={cars.name}
+      width={size}
+      height={size}
+    />
   );
 }

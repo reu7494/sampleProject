@@ -1,20 +1,16 @@
-import Gallery from "./Gallery";
-
-function Card({ children }) {
-  return <div className="card">{children}</div>;
+function Item({ name, isPacked }) {
+  return <li className="item">{isPacked ? <del>{name + "✅"}</del> : name}</li>;
 }
 
-export default function Profile() {
+export default function PackingList() {
   return (
-    <Card>
-      <h1> Nice Car!</h1>
-      <Gallery
-        size={500}
-        cars={{
-          name: "Lamborghini 1",
-          imageId: "1",
-        }}
-      />
-    </Card>
+    <section>
+      <h1>Sally Ride's Packing List</h1>
+      <ul>
+        <Item isPacked={true} name="Space suit" />
+        <Item isPacked={true} name="Helmet with a golden leaf" />
+        <Item isPacked={false} name="Photo of Tam" />
+      </ul>
+    </section>
   );
 }

@@ -3,10 +3,10 @@ import { recipes } from "./data.js";
 function Recipe({ id, name, ingredients }) {
   return (
     <div>
-      <div key={id}>
+      <div>
         <h2>{name}</h2>
         <ul>
-          <li>{ingredients}</li>
+          <li key={id}>{ingredients}</li>
         </ul>
       </div>
     </div>
@@ -14,13 +14,14 @@ function Recipe({ id, name, ingredients }) {
 }
 
 export default function RecipeList() {
+  const recipe = recipes;
   return (
     <div>
       <h1>Recipes</h1>
       <Recipe
-        id={recipes.id}
-        name={recipes.name}
-        ingredients={recipes.ingredients}
+        id={recipe.id}
+        name={recipe.name}
+        ingredients={recipe.ingredients}
       />
     </div>
   );

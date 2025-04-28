@@ -1,14 +1,14 @@
-const people = [
-  "Creola Katherine Johnson: mathematician",
-  "Mario José Molina-Pasquel Henríquez: chemist",
-  "Mohammad Abdus Salam: physicist",
-  "Percy Lavon Julian: chemist",
-  "Subrahmanyan Chandrasekhar: astrophysicist",
-];
+import Car from "./images/Lamborghini.jpg";
 
-export default function List() {
-  const listItems = people.map(function (person) {
-    return <li>{person}</li>;
-  });
-  return <ul>{listItems}</ul>;
+function Cars({ name, size = 70 }) {
+  return (
+    <div>
+      <h1>{name} is Nice Car!</h1>
+      <img src={Car} alt={name} width={size} height={size} />
+    </div>
+  );
+}
+
+export default function Image() {
+  return <Cars name="Lamborghini" />;
 }

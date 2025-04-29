@@ -1,11 +1,18 @@
-function TestList({ teli }) {
-  return <h2>Test List {teli}</h2>;
+import { useState, useEffect } from "react";
+import Clock from "./Clock.js";
+
+function useTime() {
+  const [time, setTime] = useState(() => new Date());
+  useEffect(() => {
+    const id = setInterval(() => {
+      setTime(new Date());
+    }, 1000);
+    return () => clearInterval(id);
+  }, []);
+  return time;
 }
 
-export default function Test() {
-  let list = [];
-  for (let i = 0; i < 10; i++) {
-    list.push(<TestList key={i} teli={i} />);
-  }
-  return list;
+export default function App() {
+  const time = useTime();
+  return <Clock time={time} />;
 }

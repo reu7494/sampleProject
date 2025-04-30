@@ -1,24 +1,12 @@
-function Button({ onClick, children }) {
-  return <button onClick={onClick}>{children}</button>;
-}
+export default function LightSwitch() {
+  function handleClick() {
+    let bodyStyle = document.body.style;
+    if (bodyStyle.backgroundColor === "black") {
+      bodyStyle.backgroundColor = "white";
+    } else {
+      bodyStyle.backgroundColor = "black";
+    }
+  }
 
-function PlayButton({ movieName }) {
-  return (
-    <Button onClick={() => alert(`Playing ${movieName}`)}>
-      Play {movieName}
-    </Button>
-  );
-}
-
-function UploadButton() {
-  return <Button onClick={() => alert("Uploading")}>Upload Image</Button>;
-}
-
-export default function Toolbar() {
-  return (
-    <div>
-      <PlayButton movieName="Kiki's Delivery Service"></PlayButton>
-      <UploadButton />
-    </div>
-  );
+  return <button onClick={handleClick()}>Toggle the lights</button>;
 }

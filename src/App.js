@@ -1,31 +1,43 @@
-import { useState } from "react";
-import ColorSwitch from "./ColorSwitch.js";
+import { useState, useEffect } from "react";
+import { sculptureList } from "./data.js";
 
-export default function App() {
-  const [clicks, setClicks] = useState(0);
+export default function Gallery() {
+  const [index, setIndex] = useState(0);
+  const [showMore, setShowMore] = useState(false);
 
-  function handleClickOutside() {
-    setClicks((c) => c + 1);
+  function handlePreviousClick() {
+    setIndex(index === 0 ? 11 : index - 1);
   }
 
-  function getRandomLightColor() {
-    let r = 150 + Math.round(100 * Math.random());
-    let g = 150 + Math.round(100 * Math.random());
-    let b = 150 + Math.round(100 * Math.random());
-    return `rgb(${r}, ${g}, ${b})`;
+  function handleNextClick() {
+    setIndex(index === 11 ? 0 : index + 1);
   }
 
-  function handleChangeColor() {
-    let bodyStyle = document.body.style;
-    bodyStyle.backgroundColor = getRandomLightColor();
+  function handleMoreClick() {
+    setShowMore(!showMore);
   }
 
+  useEffect(() => {
+    console.log("Updated index:", index);
+  }, [index]);
+
+  let sculpture = sculptureList[index];
   return (
-    <div style={{ width: "100%", height: "100%" }} onClick={handleClickOutside}>
-      <ColorSwitch onChangeColor={handleChangeColor} />
-      <br />
-      <br />
-      <h2>Clicks on the page: {clicks}</h2>
-    </div>
+    <>
+      <button onClick={handleNextClick}>Next</button>
+      <button onClick={handlePreviousClick}>Previous</button>
+      <h2>
+        <i>{sculpture.name} </i>
+        by {sculpture.artist}
+      </h2>
+      <h3>
+        ({index + 1} of {sculptureList.length})
+      </h3>
+      <button onClick={handleMoreClick}>
+        {showMore ? "Hide" : "Show"} details
+      </button>
+      {showMore && <p>{sculpture.description}</p>}
+      <img src={sculpture.url} alt={sculpture.alt} />
+    </>
   );
 }

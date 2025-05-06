@@ -1,27 +1,27 @@
 import { useState } from "react";
 
-export default function FeedbackForm() {
-  const [isSent, setIsSent] = useState(false);
-  const [message, setMessage] = useState("");
-  if (!isSent) {
-    return (
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          alert(`Sending: "${message}"`);
-          setIsSent(true);
-        }}
-      >
-        <textarea
-          placeholder="Message"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
-        <br />
-        <button type="submit">Send</button>
-      </form>
-    );
-  } else {
-    return <h1>Thank you!</h1>;
+export default function RequestTracker() {
+  const [pending, setPending] = useState(0);
+  const [completed, setCompleted] = useState(0);
+
+  async function handleClick() {
+    setPending(pending + 1);
+    await delay(3000);
+    setPending(pending - 1);
+    setCompleted(completed + 1);
   }
+
+  return (
+    <>
+      <h3>Pending: {pending}</h3>
+      <h3>Completed: {completed}</h3>
+      <button onClick={handleClick}>Buy</button>
+    </>
+  );
+}
+
+function delay(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 }

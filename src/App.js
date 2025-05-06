@@ -1,20 +1,20 @@
 import { useState } from "react";
 
 export default function Form() {
-  const [firstName, setFirstName] = useState();
-  const [lastName, setLastName] = useState();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
   function handleFirstNameChange(e) {
-    setFirstName = e.target.value;
+    setFirstName(e.target.value);
   }
 
   function handleLastNameChange(e) {
-    setLastName = e.target.value;
+    setLastName(e.target.value);
   }
 
   function handleReset() {
-    firstName = null;
-    lastName = null;
+    setFirstName("");
+    setLastName("");
   }
 
   return (
@@ -30,7 +30,7 @@ export default function Form() {
         onChange={handleLastNameChange}
       />
       <h1>
-        Hi, {setFirstName} {setLastName}
+        Hi, {firstName} {lastName}
       </h1>
       <button onClick={handleReset}>Reset</button>
     </form>

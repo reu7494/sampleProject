@@ -1,7 +1,13 @@
 export function getFinalState(baseState, queue) {
   let finalState = baseState;
+  for (let i = 0; i < queue.length; i++) {
+    const action = queue[i];
 
-  // TODO: do something with the queue...
-
+    if (typeof action === "function") {
+      finalState = action(finalState);
+    } else {
+      finalState = action;
+    }
+  }
   return finalState;
 }

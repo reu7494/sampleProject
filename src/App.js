@@ -19,10 +19,22 @@ const initialProducts = [
 ];
 
 export default function ShoppingCart() {
-  const [products, setProducts] = useState(initialProducts);
+  const [products, setProducts] = useState(initialProducts); //어렵다어려워
 
-  function handleIncreaseClick(productId) {}
-
+  function handleIncreaseClick(productId) {
+    setProducts(
+      products.map((product) => {
+        if (product.id === productId) {
+          return {
+            ...product,
+            count: product.count + 1,
+          };
+        } else {
+          return product;
+        }
+      })
+    );
+  }
   return (
     <ul>
       {products.map((product) => (

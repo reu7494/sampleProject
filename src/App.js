@@ -36,6 +36,21 @@ export default function ShoppingCart() {
     );
   }
 
+  function handleDeleteClick(productId) {
+    let nextProducts = products.map((product) => {
+      if (product.id === productId) {
+        return {
+          ...product,
+          count: product.count - 1,
+        };
+      } else {
+        return product;
+      }
+    });
+    nextProducts = nextProducts.filter((p) => p.count > 0);
+    setProducts(nextProducts);
+  }
+
   return (
     <ul>
       {products.map((product) => (
@@ -48,7 +63,13 @@ export default function ShoppingCart() {
           >
             +
           </button>
-          <button>–</button>
+          <button
+            onClick={() => {
+              handleDeleteClick(product.id);
+            }}
+          >
+            –
+          </button>
         </li>
       ))}
     </ul>

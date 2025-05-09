@@ -1,44 +1,42 @@
 import { useState } from "react";
-import { useImmer } from "use-immer";
-import Background from "./Background.js";
-import Box from "./Box.js";
 
-const initialPosition = {
-  x: 0,
-  y: 0,
-};
+const initialProducts = [
+  {
+    id: 0,
+    name: "Baklava",
+    count: 1,
+  },
+  {
+    id: 1,
+    name: "Cheese",
+    count: 5,
+  },
+  {
+    id: 2,
+    name: "Spaghetti",
+    count: 2,
+  },
+];
 
-export default function Canvas() {
-  const [shape, setShape] = useImmer({
-    color: "orange",
-    position: initialPosition,
-  });
+export default function ShoppingCart() {
+  const [products, setProducts] = useState(initialProducts);
 
-  function handleMove(dx, dy) {
-    setShape((draft) => {
-      draft.position.x += dx;
-      draft.position.y += dy;
-    });
-  }
-
-  function handleColorChange(e) {
-    setShape({
-      ...shape,
-      color: e.target.value,
-    });
-  }
+  function handleIncreaseClick(productId) {}
 
   return (
-    <>
-      <select value={shape.color} onChange={handleColorChange}>
-        <option value="orange">orange</option>
-        <option value="lightpink">lightpink</option>
-        <option value="aliceblue">aliceblue</option>
-      </select>
-      <Background position={initialPosition} />
-      <Box color={shape.color} position={shape.position} onMove={handleMove}>
-        Drag me!
-      </Box>
-    </>
+    <ul>
+      {products.map((product) => (
+        <li key={product.id}>
+          {product.name} (<b>{product.count}</b>)
+          <button
+            onClick={() => {
+              handleIncreaseClick(product.id);
+            }}
+          >
+            +
+          </button>
+        </li>
+      ))}
+    </ul>
   );
 }

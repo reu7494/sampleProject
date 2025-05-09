@@ -19,7 +19,7 @@ const initialProducts = [
 ];
 
 export default function ShoppingCart() {
-  const [products, setProducts] = useState(initialProducts); //어렵다어려워
+  const [products, setProducts] = useState(initialProducts);
 
   function handleIncreaseClick(productId) {
     setProducts(
@@ -35,6 +35,7 @@ export default function ShoppingCart() {
       })
     );
   }
+
   return (
     <ul>
       {products.map((product) => (
@@ -47,6 +48,7 @@ export default function ShoppingCart() {
           >
             +
           </button>
+          <button>–</button>
         </li>
       ))}
     </ul>

@@ -46,7 +46,14 @@ ul {
   padding-inline-start: 20px;
 }
 
-label {
-  display: block;
-  margin-bottom: 20px;
+button {
+  display: inline-block;
+  margin: 5px;
+  font-size: 15px;
+}
+h1 {
+  display: inline-block;
+  margin: 10px;
+  width: 30px;
+  text-align: center;
 }

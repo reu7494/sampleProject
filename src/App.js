@@ -1,32 +1,19 @@
 import { useState } from "react";
+export default function DarkMode() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-export default function Counter() {
-  const [count, setCount] = useState(0);
+  function ChangeColor() {
+    setIsDarkMode(!isDarkMode);
+  }
+
+  const appClassName = `app ${isDarkMode ? "dark" : "light"}`;
+
   return (
-    <>
-      <h1>{count}</h1>
-      <button
-        onClick={() => {
-          setCount((n) => n + 1);
-        }}
-      >
-        +
+    <div className={appClassName}>
+      <h1>{isDarkMode ? "다크모드" : "라이트모드"}</h1>
+      <button onClick={ChangeColor}>
+        {isDarkMode ? "라이트모드 전환" : "다크모드 전환"}
       </button>
-      <button
-        onClick={() => {
-          setCount((n) => n - 1);
-        }}
-      >
-        -
-      </button>
-      <button
-        onClick={() => {
-          setCount(0);
-          alert("ReSet Success");
-        }}
-      >
-        ReSet
-      </button>
-    </>
+    </div>
   );
 }

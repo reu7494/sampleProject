@@ -1,48 +1,31 @@
 import { useState } from "react";
 
-export default function EditProfile() {
-  const [state, setState] = useState(false);
-  const [firstName, setFirstName] = useState("Jane");
-  const [lastName, setLastName] = useState("Jacobs");
+let initialList = [
+  { id: 0, name: "Hello" },
+  { id: 1, name: "World!" },
+];
+let nextId = 2;
+
+export default function List() {
+  const [name, setName] = useState("");
+  const [list, setList] = useState(initialList);
+
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        setState(!state);
-      }}
-    >
-      <label>
-        First name:
-        {state ? (
-          <input
-            value={firstName}
-            onChange={(e) => {
-              setFirstName(e.target.value);
-            }}
-          />
-        ) : (
-          <b>{firstName}</b>
-        )}
-      </label>
-      <label>
-        Last name:
-        {state ? (
-          <input
-            value={lastName}
-            onChange={(e) => {
-              setLastName(e.target.value);
-            }}
-          />
-        ) : (
-          <b>{lastName}</b>
-        )}
-      </label>
-      <button type="submit">{state ? "Save" : "Edit"} Profile</button>
-      <p>
-        <i>
-          Hello, {firstName} {lastName}!
-        </i>
-      </p>
-    </form>
+    <>
+      <h1>My Lists</h1>
+      <input value={name} onChange={(e) => setName(e.target.value)} />
+      <button
+        onClick={() => {
+          setList([...list, { id: nextId++, name: name }]);
+        }}
+      >
+        Add
+      </button>
+      <ul>
+        {list.map((list) => (
+          <li key={list.id}>{list.name}</li>
+        ))}
+      </ul>
+    </>
   );
 }

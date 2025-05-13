@@ -1,18 +1,64 @@
-.app {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
+/* 전체 폰트와 배경 */
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  padding: 30px;
+  text-align: center;
 }
 
-.light {
-  background-color: white;
-  color: black;
+/* 타이틀 */
+h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
 }
 
-.dark {
-  background-color: #222;
+/* 버튼 영역 */
+.button {
+  margin-bottom: 30px;
+}
+
+.button button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  background-color: #4caf50;
   color: white;
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+.button button:hover {
+  background-color: #45a049;
+}
+
+/* 결과 출력 영역 */
+.result {
+  background-color: #fff;
+  border: 2px solid #ddd;
+  padding: 20px;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+.result p {
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+.result-text.win {
+  color: green;
+  font-weight: bold;
+}
+
+.result-text.lose {
+  color: red;
+  font-weight: bold;
+}
+
+.result-text.draw {
+  color: gray;
+  font-weight: bold;
 }

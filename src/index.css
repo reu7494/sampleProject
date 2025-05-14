@@ -45,3 +45,15 @@ code {
 ul {
   padding-inline-start: 20px;
 }
+
+button {
+  margin: 5px;
+}
+li {
+  list-style-type: none;
+}
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}

@@ -1,44 +1,76 @@
 import { useState } from "react";
-import { letters } from "./data.js";
-import Letter from "./Letter.js";
 
-export default function MailClient() {
-  const [selectedIds, setSelectedIds] = useState([]);
+const list = [
+  {
+    id: 0,
+    text: "Hello World",
+    seen: true,
+  },
+  {
+    id: 1,
+    text: "Hello ",
+    seen: true,
+  },
+];
 
-  // TODO: allow multiple selection
-  const selectedCount = selectedIds.length;
+export default function App() {
+  const [items, setItems] = useState([list]);
+  const [text, setText] = useState();
 
-  function handleToggle(toggledId) {
-    // TODO: allow multiple selection
-    setSelectedIds((prev) => {
-      const newValue = [...prev];
-      console.log(newValue);
-      if (newValue.includes(toggledId)) {
-        return newValue.filter((id) => id !== toggledId);
-      } else {
-        newValue.push(toggledId);
-        return newValue;
-      }
-    });
+  function handleAddItem(e) {
+    e.preventDefault();
+    if (text.trim() === "") return;
+
+    const newItem = {
+      id: Date.now(),
+      text: text,
+      seen: false,
+    };
+
+    setItems([...items, newItem]);
+    setText("");
+  }
+
+  function handleToggle(id) {
+    setItems(
+      items.map((item) =>
+        item.id === id ? { ...item, seen: !item.seen } : item
+      )
+    );
+  }
+
+  function handleDelete(id) {
+    setItems(items.filter((item) => item.id !== id));
   }
 
   return (
-    <>
-      <h2>Inbox</h2>
+    <div>
+      <h2>Packing Checklist</h2>
+      <form onSubmit={handleAddItem}>
+        <input
+          type="text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="Add item"
+        />
+        <button type="submit">Add</button>
+      </form>
+
       <ul>
-        {letters.map((letter) => (
-          <Letter
-            key={letter.id}
-            letter={letter}
-            isSelected={selectedIds.includes(letter.id)}
-            onToggle={handleToggle}
-          />
+        {items.map((item) => (
+          <li key={item.id}>
+            <label>
+              <inupt
+                type="checkbox"
+                checked={item.checked}
+                onChange={() => handleToggle(item.id)}
+              />
+              {item.text}
+            </label>
+            <button onClick={handleDelete(item.id)}>Delete</button>
+          </li>
         ))}
-        <hr />
-        <p>
-          <b>You selected {selectedCount} letters</b>
-        </p>
       </ul>
-    </>
+    </div>
   );
 }

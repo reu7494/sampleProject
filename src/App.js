@@ -1,76 +1,30 @@
 import { useState } from "react";
-
-const list = [
-  {
-    id: 0,
-    text: "Hello World",
-    seen: true,
-  },
-  {
-    id: 1,
-    text: "Hello ",
-    seen: true,
-  },
+import { ItemList } from "./ItemList";
+const initialList = [
+  { id: 0, title: "Hello", seen: true },
+  { id: 1, title: "World", seen: true },
+  { id: 2, title: "Hello World", seen: true },
 ];
 
-export default function App() {
-  const [items, setItems] = useState([list]);
-  const [text, setText] = useState();
+export default function CheckList() {
+  const [checkList, setCheckList] = useState(initialList);
 
-  function handleAddItem(e) {
-    e.preventDefault();
-    if (text.trim() === "") return;
-
-    const newItem = {
-      id: Date.now(),
-      text: text,
-      seen: false,
-    };
-
-    setItems([...items, newItem]);
-    setText("");
-  }
-
-  function handleToggle(id) {
-    setItems(
-      items.map((item) =>
-        item.id === id ? { ...item, seen: !item.seen } : item
-      )
+  function handleToggle(id, nextSeen) {
+    setCheckList(
+      checkList.map((prev) => {
+        if (prev.id === id) {
+          return { ...prev, seen: nextSeen };
+        } else {
+          return prev;
+        }
+      })
     );
-  }
-
-  function handleDelete(id) {
-    setItems(items.filter((item) => item.id !== id));
   }
 
   return (
     <div>
-      <h2>Packing Checklist</h2>
-      <form onSubmit={handleAddItem}>
-        <input
-          type="text"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Add item"
-        />
-        <button type="submit">Add</button>
-      </form>
-
-      <ul>
-        {items.map((item) => (
-          <li key={item.id}>
-            <label>
-              <inupt
-                type="checkbox"
-                checked={item.checked}
-                onChange={() => handleToggle(item.id)}
-              />
-              {item.text}
-            </label>
-            <button onClick={handleDelete(item.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+      <h1>Check List</h1>
+      <ItemList lists={checkList} onToggle={handleToggle} />
     </div>
   );
 }

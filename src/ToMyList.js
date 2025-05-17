@@ -1,4 +1,4 @@
-export function ItemList({ lists, onToggle }) {
+export function ToMyList({ lists, onToggle, deleteButton }) {
   return (
     <ul>
       {lists.map((list) => (
@@ -11,8 +11,10 @@ export function ItemList({ lists, onToggle }) {
                 onToggle(list.id, e.target.checked);
               }}
             />
+            {""}
             {list.title}
           </label>
+          <button onChange={() => deleteButton(list.id)}>Delete</button>
         </li>
       ))}
     </ul>

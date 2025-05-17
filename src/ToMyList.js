@@ -14,7 +14,7 @@ export function ToMyList({ lists, onToggle, deleteButton }) {
             {""}
             {list.title}
           </label>
-          <button onChange={() => deleteButton(list.id)}>Delete</button>
+          <button onClick={() => deleteButton(list.id)}>Delete</button>
         </li>
       ))}
     </ul>

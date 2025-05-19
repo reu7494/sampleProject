@@ -1,4 +1,4 @@
-export function ToMyList({ lists, onToggle, deleteButton }) {
+export function ToMyList({ lists, onToggle }) {
   return (
     <ul>
       {lists.map((list) => (
@@ -14,12 +14,6 @@ export function ToMyList({ lists, onToggle, deleteButton }) {
             {""}
             {list.title}
           </label>
-          <button
-            className="button-space"
-            onClick={() => deleteButton(list.id)}
-          >
-            Delete
-          </button>
         </li>
       ))}
     </ul>

@@ -11,7 +11,8 @@ const initialList = [
 
 export default function CheckList() {
   const [checkList, setCheckList] = useState(initialList);
-  const [name, setName] = useState();
+  const [name, setName] = useState("");
+  const [modify, setModify] = useState(false);
 
   function handleToggle(mylist, nextSeen) {
     setCheckList(
@@ -25,31 +26,48 @@ export default function CheckList() {
     );
   }
 
-  function handleDelete(listId) {
-    setCheckList(checkList.filter((check) => check.id !== listId));
+  function handleAdd() {
+    setCheckList([...checkList, { id: nextId++, title: name, seen: false }]);
+    setName("");
+  }
+
+  function handleDelete() {
+    setCheckList(checkList.filter((check) => check.seen !== true));
   }
 
   return (
-    <div>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        setModify(!modify);
+      }}
+    >
       <h1>Check List</h1>
       <input value={name} onChange={(e) => setName(e.target.value)} />
-      <button
-        className="button-space"
-        onClick={() => {
-          setCheckList([
-            ...checkList,
-            { id: nextId++, title: name, seen: false },
-          ]);
-          setName("");
-        }}
-      >
+      <button className="button-space" onClick={handleAdd}>
         Add
       </button>
+      <button className="button-space" onClick={handleDelete}>
+        Delete
+      </button>
+      {/* {modify ? (
+        <input
+          value={checkList}
+          onChange={(e) => {
+            setCheckList(e.target.value);
+          }}
+        />
+      ) : (
+        { checkList }
+      )}
+      <button className="button-space" type="submit">
+        {modify ? "Save" : "Edit"}
+      </button> */}
       <ToMyList
         lists={checkList}
+        setLists={setCheckList}
         onToggle={handleToggle}
-        deleteButton={handleDelete}
       />
-    </div>
+    </form>
   );
 }

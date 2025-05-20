@@ -44,19 +44,6 @@ export default function CheckList() {
       <button className="button-space" onClick={handleDelete}>
         Delete
       </button>
-      {/* {modify ? (
-        <input
-          value={checkList}
-          onChange={(e) => {
-            setCheckList(e.target.value);
-          }}
-        />
-      ) : (
-        { checkList }
-      )}
-      <button className="button-space" type="submit">
-        {modify ? "Save" : "Edit"}
-      </button> */}
       <ToMyList lists={checkList} onToggle={handleToggle} />
     </div>
   );

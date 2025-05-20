@@ -1,4 +1,4 @@
-export function ToMyList({ lists, onToggle }) {
+export function ToMyList({ lists, onToggle, onEdit }) {
   return (
     <ul>
       {lists.map((list) => (

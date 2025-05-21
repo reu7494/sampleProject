@@ -1,15 +1,6 @@
 import { useState } from "react";
 
 export function ToMyList({ lists, onToggle }) {
-  const [isEdit, setIsEdit] = useState(false);
-
-  function handleIsEdit(id) {
-    setIsEdit((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  }
-
   return (
     <ul>
       {lists.map((list) => (
@@ -25,9 +16,6 @@ export function ToMyList({ lists, onToggle }) {
             {""}
             {list.title}
           </label>
-          <button onClick={() => handleIsEdit(list.id)}>
-            {isEdit[list.id] ? "True" : "False"}
-          </button>
         </li>
       ))}
     </ul>

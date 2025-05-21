@@ -12,6 +12,7 @@ const initialList = [
 export default function CheckList() {
   const [checkList, setCheckList] = useState(initialList);
   const [name, setName] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
 
   function handleToggle(mylist, nextSeen) {
     setCheckList(
@@ -35,7 +36,12 @@ export default function CheckList() {
   }
 
   return (
-    <div>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        setIsEdit(!isEdit);
+      }}
+    >
       <h1>Check List</h1>
       <input value={name} onChange={(e) => setName(e.target.value)} />
       <button className="button-space" onClick={handleAdd}>
@@ -44,7 +50,27 @@ export default function CheckList() {
       <button className="button-space" onClick={handleDelete}>
         Delete
       </button>
+      <label>
+        {isEdit ? (
+          <input
+            value={checkList.title}
+            onChange={(e) => {
+              setCheckList(e.target.value);
+            }}
+          />
+        ) : (
+          [...checkList]
+        )}
+      </label>
+      <button
+        type="submit"
+        onClick={() => [
+          setCheckList([...checkList, { title: checkList.title }]),
+        ]}
+      >
+        {isEdit ? "Save" : "Edit"}
+      </button>
       <ToMyList lists={checkList} onToggle={handleToggle} />
-    </div>
+    </form>
   );
 }

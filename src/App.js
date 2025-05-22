@@ -3,45 +3,42 @@ import { ToMyList } from "./ToMyList";
 
 let nextId = 3;
 
-const initialList = [
-  { id: 0, title: "Hello", seen: true },
-  { id: 1, title: "World", seen: false },
-  { id: 2, title: "Hello World", seen: false },
-];
-
 export default function CheckList() {
-  const [checkList, setCheckList] = useState(initialList);
+  const [checkList, setCheckList] = useState([
+    { id: 0, title: "Hello", seen: true },
+    { id: 1, title: "World", seen: false },
+    { id: 2, title: "Hello World", seen: false },
+  ]);
   const [name, setName] = useState("");
-  const [isEdit, setIsEdit] = useState(false);
 
   function handleToggle(mylist, nextSeen) {
     setCheckList(
-      checkList.map((prev) => {
-        if (prev.id === mylist) {
-          return { ...prev, seen: nextSeen };
-        } else {
-          return prev;
-        }
-      })
+      checkList.map((prev) =>
+        prev.id === mylist ? { ...prev, seen: nextSeen } : prev
+      )
     );
   }
 
   function handleAdd() {
+    if (name.trim() === "") return;
     setCheckList([...checkList, { id: nextId++, title: name, seen: false }]);
     setName("");
   }
 
   function handleDelete() {
-    setCheckList(checkList.filter((check) => check.seen !== true));
+    setCheckList(checkList.filter((check) => !check.seen));
+  }
+
+  function handleEdit(id, newTitle) {
+    setCheckList(
+      checkList.map((item) =>
+        item.id === id ? { ...item, title: newTitle } : item
+      )
+    );
   }
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        setIsEdit(!isEdit);
-      }}
-    >
+    <div>
       <h1>Check List</h1>
       <input value={name} onChange={(e) => setName(e.target.value)} />
       <button className="button-space" onClick={handleAdd}>
@@ -50,27 +47,7 @@ export default function CheckList() {
       <button className="button-space" onClick={handleDelete}>
         Delete
       </button>
-      <label>
-        {isEdit ? (
-          <input
-            value={checkList.title}
-            onChange={(e) => {
-              setCheckList(e.target.value);
-            }}
-          />
-        ) : (
-          [...checkList]
-        )}
-      </label>
-      <button
-        type="submit"
-        onClick={() => [
-          setCheckList([...checkList, { title: checkList.title }]),
-        ]}
-      >
-        {isEdit ? "Save" : "Edit"}
-      </button>
-      <ToMyList lists={checkList} onToggle={handleToggle} />
-    </form>
+      <ToMyList lists={checkList} onToggle={handleToggle} onEdit={handleEdit} />
+    </div>
   );
 }

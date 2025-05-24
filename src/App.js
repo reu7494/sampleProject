@@ -21,6 +21,7 @@ export default function App() {
       const fakeToken = "FAKE_TOKEN_123";
       localStorage.setItem("token", fakeToken);
       setToken(fakeToken);
+      alert("성공");
     } else {
       alert("아이디 또는 비밀번호가 틀렸습니다.");
     }

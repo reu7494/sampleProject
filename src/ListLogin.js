@@ -11,10 +11,6 @@ export function ListLogin({ onLogin }) {
     e.preventDefault();
     if (userName === "reu7494@naver.com" && password === "1234") {
       onLogin(userName, password);
-      alert("성공");
-      navigate("/mainBoard");
-    } else {
-      alert("아이디 또는 비밀번호가 틀렸습니다.");
     }
   }
 

@@ -38,9 +38,17 @@ export function ToMyList({ lists, onToggle, onEdit }) {
             )}
           </label>
           {editState[list.id] ? (
-            <button onClick={() => handleSave(list.id)}>Save</button>
+            <button
+              className="button-space"
+              onClick={() => handleSave(list.id)}
+            >
+              Save
+            </button>
           ) : (
-            <button onClick={() => handleEditToggle(list.id, list.title)}>
+            <button
+              className="button-space"
+              onClick={() => handleEditToggle(list.id, list.title)}
+            >
               Edit
             </button>
           )}

@@ -1,53 +1,45 @@
-import { useState } from "react";
-import { ToMyList } from "./ToMyList";
+import { useState, useEffect } from "react";
+import { ListLogin } from "./ListLogin";
+import { Home } from "./Home";
+import { MainBoard } from "./MainBoard";
+import { useNavigate } from "react-router-dom";
 
-let nextId = 3;
+export default function App() {
+  const [token, setToken] = useState(null);
 
-export default function CheckList() {
-  const [checkList, setCheckList] = useState([
-    { id: 0, title: "Hello", seen: true },
-    { id: 1, title: "World", seen: false },
-    { id: 2, title: "Hello World", seen: false },
-  ]);
-  const [name, setName] = useState("");
+  const navigate = useNavigate();
 
-  function handleToggle(mylist, nextSeen) {
-    setCheckList(
-      checkList.map((prev) =>
-        prev.id === mylist ? { ...prev, seen: nextSeen } : prev
-      )
-    );
+  useEffect(() => {
+    const savedToken = localStorage.getItem("token");
+    if (savedToken) {
+      setToken(savedToken);
+    }
+  }, []);
+
+  function handleLogin(userName, password) {
+    if (userName === "reu7494@naver.com" && password === "1234") {
+      const fakeToken = "FAKE_TOKEN_123";
+      localStorage.setItem("token", fakeToken);
+      setToken(fakeToken);
+    } else {
+      alert("아이디 또는 비밀번호가 틀렸습니다.");
+    }
   }
 
-  function handleAdd() {
-    if (name.trim() === "") return;
-    setCheckList([...checkList, { id: nextId++, title: name, seen: false }]);
-    setName("");
-  }
-
-  function handleDelete() {
-    setCheckList(checkList.filter((check) => !check.seen));
-  }
-
-  function handleEdit(id, newTitle) {
-    setCheckList(
-      checkList.map((item) =>
-        item.id === id ? { ...item, title: newTitle } : item
-      )
-    );
+  function handleLogout() {
+    localStorage.removeItem("token");
+    setToken(null);
+    alert("성공");
+    navigate("/");
   }
 
   return (
     <div>
-      <h1>Check List</h1>
-      <input value={name} onChange={(e) => setName(e.target.value)} />
-      <button className="button-space" onClick={handleAdd}>
-        Add
-      </button>
-      <button className="button-space" onClick={handleDelete}>
-        Delete
-      </button>
-      <ToMyList lists={checkList} onToggle={handleToggle} onEdit={handleEdit} />
+      {token ? (
+        <MainBoard onLogout={handleLogout} />
+      ) : (
+        <ListLogin onLogin={handleLogin} />
+      )}
     </div>
   );
 }

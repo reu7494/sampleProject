@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 let nextId = 3;
 
-export function MainBoard({ onLogout }) {
+export function MainBoard() {
   const [checkList, setCheckList] = useState([
     { id: 0, title: "Hello", seen: true },
     { id: 1, title: "World", seen: false },
@@ -12,6 +12,8 @@ export function MainBoard({ onLogout }) {
   ]);
 
   const [name, setName] = useState("");
+
+  const navigate = useNavigate();
 
   function handleToggle(mylist, nextSeen) {
     setCheckList(
@@ -38,6 +40,10 @@ export function MainBoard({ onLogout }) {
       )
     );
   }
+  function handleLogout() {
+    alert("성공");
+    navigate("/");
+  }
 
   return (
     <div>
@@ -49,7 +55,7 @@ export function MainBoard({ onLogout }) {
       <button className="button-space" onClick={handleDelete}>
         Delete
       </button>
-      <button className="button-space" onClick={onLogout}>
+      <button className="button-space" onClick={handleLogout}>
         Logout
       </button>
       <ToMyList lists={checkList} onToggle={handleToggle} onEdit={handleEdit} />

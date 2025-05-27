@@ -1,15 +1,25 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export function ListLogin() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
+  const location = useLocation();
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    if (userName === "reu7494@naver.com" && password === "1234") {
+  useEffect(() => {
+    if (location.state) {
+      setUserName(location.state?.userId);
+      setPassword(location.state?.userPassword);
+    }
+  }, [location.state]);
+
+  function handleLogin() {
+    if (
+      userName === location.state?.userId &&
+      password === location.state?.userPassword
+    ) {
       alert("성공");
       navigate("/mainboard");
     } else {
@@ -17,34 +27,40 @@ export function ListLogin() {
     }
   }
 
-  function goToSignup() {
+  function handleSignup() {
     navigate("/signup");
   }
 
-  function goToHome() {
+  function handleHome() {
     navigate("/");
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div>
       <h1>Login</h1>
       <input
         type="email"
-        placeholder="reu7494@naver.com"
+        placeholder="email"
         value={userName}
         onChange={(e) => setUserName(e.target.value)}
       />
       <br />
       <input
         type="password"
-        placeholder="1234"
+        placeholder="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
       <br />
-      <button type="submit">Login</button>
-      <button onChlick={goToSignup}>Sign up</button>
-      <button onChlick={goToHome}>Home</button>
-    </form>
+      <button className="button-space" onClick={handleLogin}>
+        Login
+      </button>
+      <button className="button-space" onClick={handleSignup}>
+        Sign up
+      </button>
+      <button className="button-space" onClick={handleHome}>
+        Home
+      </button>
+    </div>
   );
 }

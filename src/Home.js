@@ -8,8 +8,7 @@ export function Home() {
   }
 
   function goToSignUp() {
-    alert("구현중");
-    //navigate("/signup");
+    navigate("/signup");
   }
   return (
     <div>

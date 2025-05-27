@@ -45,6 +45,10 @@ export function MainBoard() {
     navigate("/");
   }
 
+  function handleHome() {
+    navigate("/");
+  }
+
   return (
     <div>
       <h1>Check List</h1>
@@ -54,6 +58,9 @@ export function MainBoard() {
       </button>
       <button className="button-space" onClick={handleDelete}>
         Delete
+      </button>
+      <button className="button-space" onClick={handleHome}>
+        Home
       </button>
       <button className="button-space" onClick={handleLogout}>
         Logout

@@ -1,25 +1,16 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export function ListLogin() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
-  const location = useLocation();
-
-  useEffect(() => {
-    if (location.state) {
-      setUserName(location.state?.userId);
-      setPassword(location.state?.userPassword);
-    }
-  }, [location.state]);
+  const savedId = localStorage.getItem("userId");
+  const savedPw = localStorage.getItem("userPassword");
 
   function handleLogin() {
-    if (
-      userName === location.state?.userId &&
-      password === location.state?.userPassword
-    ) {
+    if (userName === savedId && password === savedPw) {
       alert("성공");
       navigate("/mainboard");
     } else {
@@ -39,15 +30,15 @@ export function ListLogin() {
     <div>
       <h1>Login</h1>
       <input
-        type="email"
-        placeholder="email"
+        type="text"
+        placeholder="아이디"
         value={userName}
         onChange={(e) => setUserName(e.target.value)}
       />
       <br />
       <input
         type="password"
-        placeholder="password"
+        placeholder="비밀번호"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />

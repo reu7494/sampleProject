@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export function SignUp() {
@@ -7,16 +7,13 @@ export function SignUp() {
 
   const navigate = useNavigate();
 
-  function handleLogin() {
+  function handleSignup() {
+    localStorage.setItem("userId", userId);
+    localStorage.setItem("userPassword", userPassword);
     alert("회원가입 성공");
-    navigate("/login", {
-      state: {
-        userId,
-        userPassword,
-      },
-    });
+    navigate("/login");
   }
-  // 데이터 유지 구현
+  // 서버 구현
   function handleHome() {
     navigate("/");
   }
@@ -24,9 +21,9 @@ export function SignUp() {
   return (
     <div>
       <input
-        type="email"
+        type="text"
         value={userId}
-        placeholder="이메일 입력"
+        placeholder="아이디 입력"
         onChange={(e) => {
           setUserId(e.target.value);
         }}
@@ -39,7 +36,7 @@ export function SignUp() {
           setUserPassword(e.target.value);
         }}
       />
-      <button className="button-space" onClick={handleLogin}>
+      <button className="button-space" onClick={handleSignup}>
         SignUp
       </button>
       <button className="button-space" onClick={handleHome}>

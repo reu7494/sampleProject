@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ToMyList } from "./ToMyList";
 import { useNavigate } from "react-router-dom";
 
@@ -12,8 +12,14 @@ export function MainBoard() {
   ]);
 
   const [name, setName] = useState("");
+  const [userId, setUserId] = useState("");
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedId = localStorage.getItem("userId");
+    setUserId(storedId);
+  }, []);
 
   function handleToggle(mylist, nextSeen) {
     setCheckList(
@@ -41,6 +47,8 @@ export function MainBoard() {
     );
   }
   function handleLogout() {
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userPassword");
     alert("성공");
     navigate("/");
   }
@@ -51,7 +59,7 @@ export function MainBoard() {
 
   return (
     <div>
-      <h1>Check List</h1>
+      <h1>{userId} Check List</h1>
       <input value={name} onChange={(e) => setName(e.target.value)} />
       <button className="button-space" onClick={handleAdd}>
         Add

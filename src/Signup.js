@@ -8,18 +8,38 @@ export function SignUp() {
   const navigate = useNavigate();
 
   function handleSignup() {
-    localStorage.setItem("userId", userId);
-    localStorage.setItem("userPassword", userPassword);
-    alert("회원가입 성공");
-    navigate("/login");
+    // fetch로 서버에 POST 요청 보내기
+    fetch("http://localhost:4000/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId,
+        userPassword,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message === "회원가입 성공") {
+          alert("회원가입 성공");
+          navigate("/login");
+        } else {
+          alert("회원가입 실패");
+        }
+      })
+      .catch((error) => {
+        console.error("에러 발생:", error);
+        alert("서버 오류가 발생했습니다.");
+      });
   }
-  // 서버 구현
   function handleHome() {
     navigate("/");
   }
 
   return (
     <div>
+      <h1>Sign Up</h1>
       <input
         type="text"
         value={userId}

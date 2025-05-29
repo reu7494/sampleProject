@@ -1,21 +1,35 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export function ListLogin() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
-  const savedId = localStorage.getItem("userId");
-  const savedPw = localStorage.getItem("userPassword");
 
   function handleLogin() {
-    if (userName === savedId && password === savedPw) {
-      alert("성공");
-      navigate("/mainboard");
-    } else {
-      alert("아이디 또는 비밀번호가 틀렸습니다.");
-    }
+    fetch("http://localhost:4000/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: userName,
+        userPassword: password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message === "로그인 성공") {
+          alert("로그인 성공!");
+          navigate("/mainboard");
+        } else {
+          alert("아이디 또는 비밀번호가 틀렸습니다.");
+        }
+      })
+      .catch((err) => {
+        console.error("서버 오류:", err);
+        alert("서버 오류가 발생했습니다.");
+      });
   }
 
   function handleSignup() {

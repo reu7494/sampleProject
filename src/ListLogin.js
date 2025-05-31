@@ -7,11 +7,12 @@ export function ListLogin() {
   const navigate = useNavigate();
 
   function handleLogin() {
-    fetch("http://localhost:4000/login", {
+    fetch("http://localhost:8000/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify({
         userId: userName,
         userPassword: password,

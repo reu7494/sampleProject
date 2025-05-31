@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { ToMyList } from "./ToMyList";
+import { ListLogout } from "./ListLogout";
+import { SignOff } from "./SignOff";
 import { useNavigate } from "react-router-dom";
 
 let nextId = 3;
@@ -46,16 +48,6 @@ export function MainBoard() {
       )
     );
   }
-  function handleLogout() {
-    localStorage.removeItem("userId");
-    localStorage.removeItem("userPassword");
-    alert("성공");
-    navigate("/");
-  }
-
-  function handleHome() {
-    navigate("/");
-  }
 
   return (
     <div>
@@ -67,12 +59,8 @@ export function MainBoard() {
       <button className="button-space" onClick={handleDelete}>
         Delete
       </button>
-      <button className="button-space" onClick={handleHome}>
-        Home
-      </button>
-      <button className="button-space" onClick={handleLogout}>
-        Logout
-      </button>
+      <ListLogout />
+      <SignOff />
       <ToMyList lists={checkList} onToggle={handleToggle} onEdit={handleEdit} />
     </div>
   );

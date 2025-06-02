@@ -46,7 +46,7 @@ app.post("/login", (req, res) => {
     if (err) return res.status(500).json({ message: "DB 오류" });
 
     if (result.length > 0) {
-      req.session.user = { userId };
+      req.session.userId = userId;
       res.json({ message: "로그인 성공", userId });
     } else {
       res.status(401).json({ message: "로그인 실패" });
@@ -75,11 +75,10 @@ app.post("/signup", (req, res) => {
 
 //회원탈퇴
 app.post("/signoff", (req, res) => {
-  if (!req.session.userId) {
+  const userId = req.session.userId;
+  if (!userId) {
     return res.status(401).json({ message: "로그인 상태가 아닙니다." });
   }
-
-  const userId = req.session.userId;
 
   const sql = "DELETE FROM users WHERE userId = ?";
   db.query(sql, [userId], (err, result) => {

@@ -16,13 +16,13 @@ app.use(express.json());
 
 app.use(
   session({
-    secret: "alskjghKJH$OIW$Uh",
-    resave: false,
-    saveUninitialized: true,
+    secret: "alskjghKJH$OIW$Uh", //비밀키
+    resave: false, //매 요청마다 세션 다시 저장 여부
+    saveUninitialized: true, // 새로 생성된 세션 저장 여부
     cookie: {
-      httpOnly: true,
-      secure: false,
-      maxAge: 1000 * 60 * 60,
+      httpOnly: true, //document.cookie로 접근 불가
+      secure: false, //HTTPS에서만 쿠키 전송(TRUE일때)
+      maxAge: 1000 * 60 * 60, //쿠키 수명
     },
   })
 );
@@ -91,6 +91,40 @@ app.post("/signoff", (req, res) => {
       res.clearCookie("connect.sid");
       res.json({ message: "회원 탈퇴 완료" });
     });
+  });
+});
+
+app.get("/checklist", (req, res) => {
+  const userId = req.session.userId;
+  if (!userId) return res.status(401).json({ message: "로그인 필요" });
+
+  const sql = "SELECT * FROM checklist WHERE userId = ?";
+  db.query(sql, [userId], (err, result) => {
+    if (err) return res.status(500).json({ message: "조회 실패" });
+    res.json(result);
+  });
+});
+
+app.post("/checklist", (req, res) => {
+  const userId = req.session.userId;
+  const { title } = req.body;
+  if (!userId) return res.status(401).json({ message: "로그인 필요" });
+
+  const sql =
+    "INSERT INTO checklist (userId, title, seen) VALUES (?, ?, false)";
+  db.query(sql, [userId, title], (err) => {
+    if (err) return res.status(500).json({ message: "추가 실패" });
+    res.json({ message: "추가 완료" });
+  });
+});
+
+app.patch("/checklist/:id", (req, res) => {
+  const { id } = req.params;
+  const { seen } = req.body;
+  const sql = "UPDATE checklist SET seen = ? WHERE id = ?";
+  db.query(sql, [seen, id], (err) => {
+    if (err) return res.status(500).json({ message: "업데이트 실패" });
+    res.json({ message: "업데이트 완료" });
   });
 });
 

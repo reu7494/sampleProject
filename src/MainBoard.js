@@ -2,39 +2,40 @@ import { useState, useEffect } from "react";
 import { ToMyList } from "./ToMyList";
 import { ListLogout } from "./ListLogout";
 import { SignOff } from "./SignOff";
-import { useNavigate } from "react-router-dom";
 
-let nextId = 3;
+let nextId = 0;
 
 export function MainBoard() {
-  const [checkList, setCheckList] = useState([
-    { id: 0, title: "Hello", seen: true },
-    { id: 1, title: "World", seen: false },
-    { id: 2, title: "Hello World", seen: false },
-  ]);
-
+  const [checkList, setCheckList] = useState([]);
   const [name, setName] = useState("");
-  const [userId, setUserId] = useState("");
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const storedId = localStorage.getItem("userId");
-    setUserId(storedId);
-  }, []);
-
-  function handleToggle(mylist, nextSeen) {
-    setCheckList(
-      checkList.map((prev) =>
-        prev.id === mylist ? { ...prev, seen: nextSeen } : prev
-      )
-    );
+  function handleToggle(id, nextSeen) {
+    fetch(`http://localhost:8000/checklist/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ seen: nextSeen }),
+    }).then(() => {
+      setCheckList(
+        checkList.map((prev) =>
+          prev.id === id ? { ...prev, seen: nextSeen } : prev
+        )
+      );
+    });
   }
 
   function handleAdd() {
     if (name.trim() === "") return;
-    setCheckList([...checkList, { id: nextId++, title: name, seen: false }]);
-    setName("");
+    fetch("http://localhost:8000/checklist", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ title: name }),
+    })
+      .then((res) => res.json())
+      .then(() => {
+        setCheckList([...checkList, { title: name, seen: false }]);
+        setName("");
+      });
   }
 
   function handleDelete() {
@@ -51,7 +52,7 @@ export function MainBoard() {
 
   return (
     <div>
-      <h1>{userId} Check List</h1>
+      <h1>Check List</h1>
       <input value={name} onChange={(e) => setName(e.target.value)} />
       <button className="button-space" onClick={handleAdd}>
         Add

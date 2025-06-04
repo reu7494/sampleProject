@@ -8,7 +8,6 @@ export function SignUp() {
   const navigate = useNavigate();
 
   function handleSignup() {
-    // fetch로 서버에 POST 요청 보내기
     fetch("http://localhost:8000/signup", {
       method: "POST",
       headers: {

@@ -3,11 +3,18 @@ import { ToMyList } from "./ToMyList";
 import { ListLogout } from "./ListLogout";
 import { SignOff } from "./SignOff";
 
-let nextId = 0;
-
 export function MainBoard() {
   const [checkList, setCheckList] = useState([]);
   const [name, setName] = useState("");
+
+  useEffect(() => {
+    fetch("http://localhost:8000/checklist", {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => setCheckList(data))
+      .catch((err) => console.error("데이터 불러오기 실패", err));
+  }, []);
 
   function handleToggle(id, nextSeen) {
     fetch(`http://localhost:8000/checklist/${id}`, {

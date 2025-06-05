@@ -47,15 +47,32 @@ export function MainBoard() {
   }
 
   function handleDelete() {
-    setCheckList(checkList.filter((check) => !check.seen));
+    fetch("http://localhost:8000/checklist", {
+      method: "DELETE",
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then(() => {
+        setCheckList(checkList.filter((check) => !check.seen));
+      })
+      .catch((err) => console.error("삭제 실패", err));
   }
 
   function handleEdit(id, newTitle) {
-    setCheckList(
-      checkList.map((item) =>
-        item.id === id ? { ...item, title: newTitle } : item
+    fetch(`http://localhost:8000/checklist/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title: newTitle }),
+    })
+      .then((res) => res.json())
+      .then(() =>
+        setCheckList(
+          checkList.map((item) =>
+            item.id === id ? { ...item, title: newTitle } : item
+          )
+        )
       )
-    );
+      .catch((err) => console.error("업데이트 실패", err));
   }
 
   return (

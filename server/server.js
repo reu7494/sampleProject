@@ -120,11 +120,41 @@ app.post("/checklist", (req, res) => {
 
 app.patch("/checklist/:id", (req, res) => {
   const { id } = req.params;
-  const { seen } = req.body;
-  const sql = "UPDATE checklist SET seen = ? WHERE id = ?";
-  db.query(sql, [seen, id], (err) => {
+  const { seen, title } = req.body;
+  const updates = [];
+  const params = [];
+
+  if (typeof seen !== "undefined") {
+    updates.push("seen = ?");
+    params.push(seen ? 1 : 0);
+  }
+
+  if (typeof title !== "undefined") {
+    updates.push("title = ?");
+    params.push(title);
+  }
+
+  if (updates.length === 0) {
+    return res.status(400).json({ message: "변경 사항 없음" });
+  }
+
+  params.push(id);
+  const sql = `UPDATE checklist SET ${updates.join(", ")} WHERE id = ?`;
+
+  db.query(sql, params, (err) => {
     if (err) return res.status(500).json({ message: "업데이트 실패" });
-    res.json({ message: "업데이트 완료" });
+    res.json({ message: "업데이트 성공" });
+  });
+});
+
+app.delete("/checklist", (req, res) => {
+  const userId = req.session.userId;
+  if (!userId) return res.status(401).json({ message: "로그인 필요" });
+
+  const sql = "DELETE FROM checklist WHERE userId = ? AND seen = 1";
+  db.query(sql, [userId], (err, result) => {
+    if (err) return res.status(500).json({ message: "삭제 실패" });
+    res.json({ message: "삭제 완료" });
   });
 });
 

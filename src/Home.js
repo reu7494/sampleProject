@@ -13,8 +13,12 @@ export function Home() {
   return (
     <div>
       <h1>환영합니다!</h1>
-      <button onClick={goToLogin}>Login</button>
-      <button onClick={goToSignUp}>Signup</button>
+      <button className="button-space" onClick={goToLogin}>
+        Login
+      </button>
+      <button className="button-space" onClick={goToSignUp}>
+        Signup
+      </button>
     </div>
   );
 }

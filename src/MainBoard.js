@@ -15,6 +15,7 @@ export function MainBoard() {
       .then((data) => setCheckList(data))
       .catch((err) => console.error("데이터 불러오기 실패", err));
   }, []);
+  //랜더링 시 checkList 데이터 불러오기 이제 리액트의 동작이 대충 이해가 되는것 같다
 
   function handleToggle(id, nextSeen) {
     fetch(`http://localhost:8000/checklist/${id}`, {

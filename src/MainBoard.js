@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { ToMyList } from "./ToMyList";
 import { ListLogout } from "./ListLogout";
 import { SignOff } from "./SignOff";
+import { SimplePagination } from "./SimplePagination";
 
 export function MainBoard() {
   const [checkList, setCheckList] = useState([]);
@@ -88,6 +89,7 @@ export function MainBoard() {
       <ListLogout />
       <SignOff />
       <ToMyList lists={checkList} onToggle={handleToggle} onEdit={handleEdit} />
+      <SimplePagination item={checkList} />
     </div>
   );
 }

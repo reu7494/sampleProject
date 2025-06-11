@@ -7,7 +7,6 @@ import ReactPaginate from "react-paginate";
 export function MainBoard() {
   const [checkList, setCheckList] = useState([]);
   const [name, setName] = useState("");
-
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 5;
 
@@ -44,10 +43,11 @@ export function MainBoard() {
       body: JSON.stringify({ title: name }),
     })
       .then((res) => res.json())
-      .then(() => {
-        setCheckList([...checkList, { title: name, seen: false }]);
+      .then((newItem) => {
+        setCheckList([...checkList, newItem]);
         setName("");
-      });
+      })
+      .catch((err) => console.error("추가 실패", err));
   }
 
   function handleDelete() {

@@ -2,11 +2,14 @@ import { useState, useEffect } from "react";
 import { ToMyList } from "./ToMyList";
 import { ListLogout } from "./ListLogout";
 import { SignOff } from "./SignOff";
-import { SimplePagination } from "./SimplePagination";
+import ReactPaginate from "react-paginate";
 
 export function MainBoard() {
   const [checkList, setCheckList] = useState([]);
   const [name, setName] = useState("");
+
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 5;
 
   useEffect(() => {
     fetch("http://localhost:8000/checklist", {
@@ -76,6 +79,13 @@ export function MainBoard() {
       .catch((err) => console.error("업데이트 실패", err));
   }
 
+  const offset = currentPage * itemsPerPage;
+  const currentItems = checkList.slice(offset, offset + itemsPerPage);
+
+  function handlePageChange({ selected }) {
+    setCurrentPage(selected);
+  }
+
   return (
     <div>
       <h1>Check List</h1>
@@ -88,8 +98,24 @@ export function MainBoard() {
       </button>
       <ListLogout />
       <SignOff />
-      <ToMyList lists={checkList} onToggle={handleToggle} onEdit={handleEdit} />
-      <SimplePagination item={checkList} />
+      <ToMyList
+        lists={currentItems}
+        onToggle={handleToggle}
+        onEdit={handleEdit}
+      />
+      <div className="container">
+        <ReactPaginate
+          previousLabel={"<"}
+          nextLabel={">"}
+          breakLabel={"..."}
+          pageCount={Math.ceil(checkList.length / itemsPerPage)}
+          marginPagesDisplayed={1}
+          pageRangeDisplayed={3}
+          onPageChange={handlePageChange}
+          containerClassName={"pagination"}
+          activeClassName={"active"}
+        />
+      </div>
     </div>
   );
 }

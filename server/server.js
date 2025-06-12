@@ -110,17 +110,15 @@ app.post("/checklist", (req, res) => {
   const { title } = req.body;
   if (!userId) return res.status(401).json({ message: "로그인 필요" });
 
-  const sql =
+  const insertSql =
     "INSERT INTO checklist (userId, title, seen) VALUES (?, ?, false)";
-  db.query(sql, [userId, title], (err) => {
+  db.query(insertSql, [userId, title], (err, result) => {
     if (err) return res.status(500).json({ message: "추가 실패" });
 
     const insertedId = result.insertId;
-
-    const getSql = "SELECT * FROM checklist WHERE id = ?";
-    db.query(getSql, [insertedId], (err2, rows) => {
-      if (err2) return res.status(500).json({ message: "조회 실패" });
-
+    const selectSql = "SELECT * FROM checklist WHERE id = ?";
+    db.query(selectSql, [insertedId], (err, rows) => {
+      if (err) return res.status(500).json({ message: "조회 실패" });
       res.json(rows[0]);
     });
   });
